@@ -1,4 +1,4 @@
-# 老版本的破解流程如下:
+# 破解流程如下:
 https://www.jianshu.com/p/58ec69e04983
 QDInfo 算法如下:
 ```python
@@ -21,5 +21,5 @@ data = base64.b64decode('fwU0VSlfsV/NtCFBjpJarbYpi9mlbLU/EDzhOVoz2RdtheX+SLpjTy8
 cryptor = DES3.new(key, DES3.MODE_CBC, b'01234567')
 print(cryptor.decrypt(data))
 ```
-
-# 有什么用
+# Todo
+[ ] 

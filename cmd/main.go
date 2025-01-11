@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"qidian/sign"
+	"github.com/pzx521521/qdapi"
+	"github.com/pzx521521/qdapi/sign"
 )
 
 const PhoneQDInfo = "SO+aPyWTJ02k4C9FkkB29fACDXIsJx4pAGbhVI07D8hjHPOEsCFgpJ99gS3kYIjunO+UrcWbhPgIlUSo3XxdoisFnouWF80qfP+9nYAPZWviV9DlRVtRllf2xwn3SDILgUVhzxJXrTRNcGeynaP07zVZ5qe7MsQgKlxQdWxM6mFdhlYjvxrV+vON3pGlpR6i99QzTXesSmhLrNUXyxfExycfosXSayIx7cg++mgVmMuYlzq0lHdkLtE9Xy/osz0yxcsC+f+qlmWM7h/koIE014cWbRBsHjwBQJJkU6h2fa5lDRNhYZLnfQ=="
@@ -17,18 +18,22 @@ func main() {
 		fmt.Printf("%v\n", err)
 		return
 	}
-	api := NewQiDianApi(meta, YWKEY, YWGUID)
+	api := qdapi.NewQiDianApi(meta, YWKEY, YWGUID)
 	//for charles
 	//api.Cli = GetProxyClient()
 	//for github action
-	api.Cli = GetInsecureClient()
-	DoTask(api,
+	api.Cli = qdapi.GetInsecureClient()
+	err = qdapi.DoTask(api,
 		//一小时一个的宝箱
-		TPSurpriseBenefit,
+		qdapi.TPSurpriseBenefit,
 		//每天的8个任务
-		TPDailyBenefit,
+		qdapi.TPDailyBenefit,
 		//看3个得10点的任务
-		TPVideoRewardTabTaskList,
+		qdapi.TPVideoRewardTabTaskList,
 		//更多任务 游戏+30点 等等  暂不支持
-		TPMoreRewardTab)
+		qdapi.TPMoreRewardTab)
+	if err != nil {
+		fmt.Printf("%v\n", err)
+		return
+	}
 }

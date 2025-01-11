@@ -1,4 +1,4 @@
-package main
+package qdapi
 
 const UrlArgus = "https://h5.if.qidian.com/argus/api/"
 const UrlArgusV1 = UrlArgus + "v1/"
@@ -109,7 +109,7 @@ type AdvMainPage struct {
 
 type SurpriseBenefit struct {
 	Desc         string `json:"Desc"`
-	IntervalTime int    `json:"IntervalTime"`
+	IntervalTime string `json:"IntervalTime"`
 	IsFinished   int    `json:"IsFinished"`
 	TaskId       string `json:"TaskId"`
 	TaskRawId    string `json:"TaskRawId"`

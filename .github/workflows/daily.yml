@@ -1,0 +1,24 @@
+name: QDCheckIn
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天凌晨 12:00 UTC 运行
+  workflow_dispatch:  # 手动触发
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.23'  # 你可以根据需要调整Go版本
+
+      - name: Build Go project
+        run: go build -o myapp ./cmd
+
+      - name: Run Go application
+        run: ./myapp

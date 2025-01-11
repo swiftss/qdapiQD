@@ -1,4 +1,4 @@
-package main
+package qdapi
 
 import (
 	"errors"
@@ -101,7 +101,7 @@ func getAllTask(adv *AdvMainPage, ttps ...TaskType) TaskList {
 		case TPSurpriseBenefit:
 			surprise := adv.GetSurpriseBenefit()
 			isReceived := 0
-			if surprise.IntervalTime != 0 {
+			if surprise.IntervalTime != "0" {
 				isReceived = 1
 			}
 			taskListAll = append(taskListAll, Task{

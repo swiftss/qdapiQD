@@ -1,4 +1,4 @@
-package main
+package qdapi
 
 import (
 	"crypto/tls"

@@ -1,12 +1,12 @@
-package main
+package qdapi
 
 import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"github.com/pzx521521/qdapi/sign"
 	"io"
 	"net/http"
-	"qidian/sign"
 )
 
 func Request[T any](qd *QiDianApi, uri string, method string, data interface{}) (*T, error) {
