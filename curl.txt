@@ -1,0 +1,18 @@
+curl -H "SDKSign: fwU0VSlfsV8ixkZ52cOeDXXFUrlXsuzjdtrLDrqngqW2zxqrPIie57C6KjfM HEvOmZ9fhIUv1W8+qbtHJvDFMFBCq07oUT2uTRYVcbY0Zm0ai6oop1RZo3r+ OSOepjUoodjKxiAoX8iTcCfcZBoD7Vz6cbDnZVyoD9KejASz3E5vXvdMAuK/ bPoW0lEvPp/eSAUxP+TQp7U=" \
+     -H "Cookie: ywkey=ywDzSYkRuMlE; ywguid=120154865151; QDInfo=SO+aPyWTJ02k4C9FkkB29fACDXIsJx4pAGbhVI07D8hjHPOEsCFgpJ99gS3kYIjunO+UrcWbhPgIlUSo3XxdoisFnouWF80qfP+9nYAPZWviV9DlRVtRllf2xwn3SDILgUVhzxJXrTTDSUmV543fZELlpbTf99GSxOFdByjqQqxDchTSIJokZNc4fKl8RN2gGKaAEY/vrqDV6WxpSZuynwvao+5eOdKSgNncvwvWRrxYR2K3WR79in6lgwROg+MFsBbkqcBp+nMvI6JVB+uzVEOs3xhkkSP0TTpZLGc5w/lqTfYw1ndD1w==" \
+     "https://h5.if.qidian.com/argus/api/v2/checkin/detail"
+
+#finishWatch 宝箱/adv
+curl -H "SDKSign: fwU0VSlfsV8ixkZ52cOeDbnU8Tp65Y6SW++JTqj8FmvZV58/+BbIVsEd0R1N 2P0C6D2ahV20NyFH54fDCUJdDeDruRj3oisQ1wWXB+4O1cHEvosiRP3YJclb cGoSnkYMLLNuI5c9hX0AvuwIWpZQFv14SG2uKUGpSKKgk4xYbYBoA8UefGSd BfaAUhlzzQ7rop2mo2VjLuc=" \
+     -H "Cookie: ywkey=ywDzSYkRuMlE; ywguid=120154865151; QDInfo=SO+aPyWTJ02k4C9FkkB29fACDXIsJx4pAGbhVI07D8hjHPOEsCFgpJ99gS3kYIjunO+UrcWbhPgIlUSo3XxdoisFnouWF80qfP+9nYAPZWviV9DlRVtRllf2xwn3SDILgUVhzxJXrTQeqTBf/oywFE6J2RwEm5wB4FXBq/17lXPil3tTVPIezK5soWKrgvV68oAOEPGExKTDNSPEqgzUWL1BgFrA/9eFMaQnk3fZCsuWuPlnfbidlNZ7wLjbB/yDHJ6y8k5dllWTvsxBPO6Sb82uwPeF0z6FSHhw8BnfuregbjHL/WQirw==" \
+     --data "taskId=932958800725147650&BanId=0&BanMessage=&CaptchaAId=&CaptchaType=0&CaptchaURL=&Challenge=&Gt=&NewCaptcha=0&Offline=0&PhoneNumber=&SessionKey=" \
+     --compressed \
+     "https://h5.if.qidian.com/argus/api/v1/video/adv/finishWatch"
+
+curl -H "SDKSign: fwU0VSlfsV8ixkZ52cOeDYIwFkf5lNdh1c7z6ABGqidr3/TCmBpOZvXGjy5c 8cvhwwsw78S8cW8ihPkYdjtvkbTBc3pSj3wMQnroxK0A+bmz39HZwd59rlj/ MB6P8gNBf77UQ6fVigPj22YW9cgGMET3VRLdOXQIKESwykrIBgVlPqWjUNtE VOba8cACpubZbgrzVG78SZc=" \
+     -H "Cookie: ywkey=ywDzSYkRuMlE; ywguid=120154865151; QDInfo=SO+aPyWTJ02k4C9FkkB29fACDXIsJx4pAGbhVI07D8hjHPOEsCFgpJ99gS3kYIjunO+UrcWbhPgIlUSo3XxdoisFnouWF80qfP+9nYAPZWviV9DlRVtRllf2xwn3SDILgUVhzxJXrTRNcGeynaP07zVZ5qe7MsQgKlxQdWxM6mFdhlYjvxrV+vON3pGlpR6i99QzTXesSmhLrNUXyxfExycfosXSayIx7cg++mgVmMuYlzq0lHdkLtE9Xy/osz0yxcsC+f+qlmWM7h/koIE014cWbRBsHjwBQJJkU6h2fa5lDRNhYZLnfQ==" \
+     "https://h5.if.qidian.com/argus/api/v2/video/adv/mainPage"
+
+curl -H "SDKSign: fwU0VSlfsV/NtCFBjpJarbYpi9mlbLU/EDzhOVoz2RdtheX+SLpjTy8L2+gA InschgJSs1O5vbtFpSZ6+GPI8iEd6QhtwlTz8ODKLNM1r+aH0A8sY5+lP6la DPt/GpDgPvW5ZvKHiqnIqFEJHRoPYEshR2+cAq03JfcYLPvSfE7DpuHLVA2F mRtLGCdVWmTujc/5Lb+/Cmk=" \
+     -H "Cookie: ywkey=ywU8TfcHg8J4; ywguid=120154865151; QDInfo=SO+aPyWTJ02k4C9FkkB29fACDXIsJx4pAGbhVI07D8hjHPOEsCFgpJ99gS3kYIjunO+UrcWbhPgIlUSo3XxdoisFnouWF80qfP+9nYAPZWuWE/x7ukJhxq8DEJW+n90UAoC6t3e9KFYaJ/yFFUfggDVS6xpzIkTxCCDps2WxRBcdvOXoA5I5/i3jrw8wJqw0DmbxzkSOoKB1T5VHx/VjWCoYTuW8fA5DlGMQL+4lQldYUANNM1Aarp6oD16p7Rqc9JpGyHOOnKF3tDxv8vGv0ElZszGBKKqK70o3d0OzvfmgFhyXErR92g==" \
+     "https://h5.if.qidian.com/argus/api/v2/checkin/checkin"
