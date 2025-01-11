@@ -22,4 +22,5 @@ cryptor = DES3.new(key, DES3.MODE_CBC, b'01234567')
 print(cryptor.decrypt(data))
 ```
 # Todo
-[ ] 
+[ ] MoreRewardTab(更多任务 游戏+30点 等等  暂不支持)
+
