@@ -1,4 +1,17 @@
-# 破解流程如下:
+## 使用方法
+随便访问一下福利中心  
+抓包`https://h5.if.qidian.com`任意链接中的以下四个值:  
++ header中的  
+  `SDKSign`
++ header->cookie中的  
+  `QDInfo`
+  `ywkey` 
+  `ywguid`   
+放入`cmd/main.go`中
+## 其他注意事项
++ 其实可以瞬间执行完,但是不知道他有没有风险控制,暂定25s一次(`task.go L24`)
++ 可能会导致任何损失,概不负责
+## 破解流程如下:
 https://www.jianshu.com/p/58ec69e04983
 QDInfo 算法如下:
 ```python

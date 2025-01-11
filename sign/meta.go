@@ -118,5 +118,11 @@ func (m *Meta) parse() error {
 		return err
 	}
 	m.sdkSign = strings.Split(sign, "|")
+	if len(m.qdInfos) < 2 {
+		return fmt.Errorf("输入的qdInfos有问题")
+	}
+	if len(m.sdkSign) < 2 {
+		return fmt.Errorf("输入的sdkSign有问题")
+	}
 	return nil
 }
