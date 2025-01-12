@@ -22,7 +22,7 @@ const (
 )
 
 func Sleep() {
-	time.Sleep(25 * time.Second)
+	time.Sleep(15 * time.Second)
 }
 func DoTask(api *QiDianApi, ttps ...TaskType) error {
 	sleep := false
@@ -31,19 +31,19 @@ func DoTask(api *QiDianApi, ttps ...TaskType) error {
 		return err
 	}
 	taskList := getAllTask(advMainPage, ttps...)
-	log.Printf("一共%d个任务\n", len(taskList))
+	log.Printf("%s:一共%d个任务\n", advMainPage.Data.NickName, len(taskList))
 	taskList = NotFinished(taskList)
-	log.Printf("还有%d个任务未完成\n", len(taskList))
+	log.Printf("%s:还有%d个任务未完成\n", advMainPage.Data.NickName, len(taskList))
 	for i, task := range taskList {
 		finish, err := doTask(api, &task, &sleep)
 		if i != len(taskList)-1 {
 			Sleep()
 		}
 		if err != nil {
-			log.Printf("第%d个任务[%s]失败:%v\n", i, task.Desc, err)
+			log.Printf("%s:第%d个任务[%s]失败:%v\n", advMainPage.Data.NickName, i, task.Desc, err)
 			return err
 		}
-		log.Printf("第%d个任务[%s]成功:%v\n", i, task.Desc, finish)
+		log.Printf("%s:第%d个任务[%s]成功:%v\n", advMainPage.Data.NickName, i, task.Desc, finish)
 	}
 	return nil
 }
@@ -61,8 +61,8 @@ func doTask(api *QiDianApi, task *Task, sleep *bool) (*FinishWatch, error) {
 			if err != nil {
 				return nil, err
 			}
-			return resp, nil
 		}
+		return resp, nil
 	//104=前往游戏中心玩游戏10分钟奖励10点币
 	//103=前往游戏中心任意一款游戏充值1次奖励30点币
 	//121=签到互动多重福利(微博)/登陆携程领积分当钱花

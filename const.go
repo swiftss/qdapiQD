@@ -7,6 +7,13 @@ const UrlCheckIn = UrlArgusV2 + "checkin/checkin"
 const UrlAdvMainPage = UrlArgusV2 + "video/adv/mainPage"
 const UrlFinishWatch = UrlArgusV1 + "video/adv/finishWatch"
 
+type QiDianApiConfig struct {
+	QDInfo  string
+	SDKSign string
+	YWKey   string
+	YWGuid  string
+}
+
 type BaseResp struct {
 	Data    interface{} `json:"Data"`
 	Message string      `json:"Message"`
