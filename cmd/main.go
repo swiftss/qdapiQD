@@ -50,8 +50,8 @@ func CheckInAndDoTask(qDInfo, sDKSign, ywKey, ywGuid string) {
 	//api.Cli = qdapi.GetProxyClient()
 	//for github action
 	api.Cli = qdapi.GetInsecureClient()
-	resp, err2 := api.CheckIn()
-	if err2 != nil {
+	resp, err := api.CheckIn()
+	if err != nil {
 		return
 	}
 	log.Printf("%v\n", resp)

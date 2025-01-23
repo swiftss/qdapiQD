@@ -6,6 +6,30 @@ const UrlArgusV2 = UrlArgus + "v2/"
 const UrlCheckIn = UrlArgusV2 + "checkin/checkin"
 const UrlAdvMainPage = UrlArgusV2 + "video/adv/mainPage"
 const UrlFinishWatch = UrlArgusV1 + "video/adv/finishWatch"
+const UrlReceiveTaskReward = UrlArgusV1 + "video/adv/receiveTaskReward"
+const UrlHeartBeat = "https://lygame.qidian.com/home/log/heartbeat?gameId=201743&platformId=1"
+const (
+	//一小时一个的宝箱
+	TPSurpriseBenefit TaskType = iota + 1
+	//每天的8个任务
+	TPDailyBenefit
+	//看3个得10点的任务
+	TPVideoRewardTabTaskList
+	//更多任务 游戏+30点 等等  暂不支持
+	TPMoreRewardTab
+
+	//104=前往游戏中心玩游戏10分钟奖励10点币
+	//103=前往游戏中心任意一款游戏充值1次奖励30点币
+	//121=签到互动多重福利(微博)/登陆携程领积分当钱花
+	//222=打开推送通知，次日（24h）后可领取奖励
+	TPMoreRewardTabPlayGame  = 104
+	TPMoreRewardTabMoneyGame = 103
+	TPMoreRewardTabOtherApp  = 121
+	TPMoreRewardTabNotify    = 222
+)
+
+// todo 这些暂时不支持
+var NotSupportTaskType = []int{TPMoreRewardTabMoneyGame, TPMoreRewardTabOtherApp, TPMoreRewardTabNotify}
 
 type QiDianApiConfig struct {
 	QDInfo  string
@@ -18,6 +42,12 @@ type BaseResp struct {
 	Data    interface{} `json:"Data"`
 	Message string      `json:"Message"`
 	Result  int         `json:"Result"`
+}
+type HeartBeatResp struct {
+	Code  int           `json:"code"`
+	Msg   string        `json:"msg"`
+	Data  interface{}   `json:"data"`
+	Extra []interface{} `json:"extra"`
 }
 
 func (r *BaseResp) IsSuccess() bool {

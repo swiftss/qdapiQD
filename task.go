@@ -5,35 +5,68 @@ import (
 	"iter"
 	"log"
 	"slices"
+	"sync"
 	"time"
 )
 
 type TaskType uint
 
-const (
-	//一小时一个的宝箱
-	TPSurpriseBenefit TaskType = iota + 1
-	//每天的8个任务
-	TPDailyBenefit
-	//看3个得10点的任务
-	TPVideoRewardTabTaskList
-	//更多任务 游戏+30点 等等  暂不支持
-	TPMoreRewardTab
-)
+const heartBeatTime = 30
 
 func Sleep() {
 	time.Sleep(15 * time.Second)
 }
-func DoTask(api *QiDianApi, ttps ...TaskType) error {
-	sleep := false
-	advMainPage, err := api.AdvMainPage()
-	if err != nil {
-		return err
+
+func doPlayGame(api *QiDianApi, advMainPage *AdvMainPage, heartBeatCount int) error {
+	for i := 0; i < heartBeatCount; i++ {
+		beat, err := api.UrlHeartBeat()
+		if err != nil {
+			return err
+		}
+		log.Printf("%s:正在玩游戏,玩了:%d秒.返回值:%v\n", advMainPage.Data.NickName, heartBeatTime*(i+1), beat)
+		time.Sleep(time.Second * heartBeatTime)
 	}
-	taskList := getAllTask(advMainPage, ttps...)
-	log.Printf("%s:一共%d个任务\n", advMainPage.Data.NickName, len(taskList))
+	return nil
+}
+func needPlayGame(taskList TaskList) int {
+	for _, task := range taskList {
+		if task.TaskType == TPMoreRewardTabPlayGame {
+			log.Printf("游戏共需要玩%ds,已经玩了%ds\n", task.Total*heartBeatTime, heartBeatTime*task.Process)
+			return task.Total - task.Process
+		}
+	}
+	return 0
+}
+func DoMoreRewardTab(api *QiDianApi, advMainPage *AdvMainPage) error {
+	taskList := getAllTask(advMainPage, TPMoreRewardTab)
+	log.Printf("%s:一共%d个更多任务\n", advMainPage.Data.NickName, len(taskList))
 	taskList = NotFinished(taskList)
-	log.Printf("%s:还有%d个任务未完成\n", advMainPage.Data.NickName, len(taskList))
+	log.Printf("%s:还有%d个更多任务未完成\n", advMainPage.Data.NickName, len(taskList))
+	heartBeatCount := needPlayGame(taskList)
+	if heartBeatCount > 0 {
+		err := doPlayGame(api, advMainPage, heartBeatCount)
+		if err != nil {
+			return err
+		}
+	}
+
+	for i, task := range taskList {
+		finish, err := doTask(api, &task, nil)
+		if err != nil {
+			log.Printf("%s:第%d个更多任务[%s]失败:%v\n", advMainPage.Data.NickName, i, task.Desc, err)
+			return err
+		}
+		log.Printf("%s:第%d个更多任务[%s]成功:%v\n", advMainPage.Data.NickName, i, task.Desc, finish)
+	}
+	return nil
+}
+
+func DoWatchVideo(api *QiDianApi, advMainPage *AdvMainPage, ttps ...TaskType) error {
+	sleep := false
+	taskList := getAllTask(advMainPage, ttps...)
+	log.Printf("%s:一共%d个看视频任务\n", advMainPage.Data.NickName, len(taskList))
+	taskList = NotFinished(taskList)
+	log.Printf("%s:还有%d个看视频任务未完成\n", advMainPage.Data.NickName, len(taskList))
 	for i, task := range taskList {
 		finish, err := doTask(api, &task, &sleep)
 		if i != len(taskList)-1 {
@@ -46,6 +79,25 @@ func DoTask(api *QiDianApi, ttps ...TaskType) error {
 		log.Printf("%s:第%d个任务[%s]成功:%v\n", advMainPage.Data.NickName, i, task.Desc, finish)
 	}
 	return nil
+}
+func DoTask(api *QiDianApi, ttps ...TaskType) error {
+	advMainPage, err := api.AdvMainPage()
+	if err != nil {
+		return err
+	}
+	wg := &sync.WaitGroup{}
+	index := slices.Index(ttps, TPMoreRewardTab)
+	if index >= 0 {
+		ttps = slices.Delete(ttps, index, index+1)
+		go func() {
+			wg.Add(1)
+			DoMoreRewardTab(api, advMainPage)
+			wg.Done()
+		}()
+	}
+	err = DoWatchVideo(api, advMainPage, ttps...)
+	wg.Wait()
+	return err
 }
 func doTask(api *QiDianApi, task *Task, sleep *bool) (*FinishWatch, error) {
 	switch task.TaskType {
@@ -67,8 +119,8 @@ func doTask(api *QiDianApi, task *Task, sleep *bool) (*FinishWatch, error) {
 	//103=前往游戏中心任意一款游戏充值1次奖励30点币
 	//121=签到互动多重福利(微博)/登陆携程领积分当钱花
 	//222=打开推送通知，次日（24h）后可领取奖励
-	case 104, 103, 121, 222:
-		return singleTask(api, task.TaskId, sleep)
+	case TPMoreRewardTabPlayGame, 103, 121, 222:
+		return singleReceiveTaskReward(api, task.TaskId)
 	default:
 		return singleTask(api, task.TaskId, sleep)
 	}
@@ -87,6 +139,13 @@ func singleTask(api *QiDianApi, taskID string, sleep *bool) (*FinishWatch, error
 	}
 	return resp, nil
 }
+func singleReceiveTaskReward(api *QiDianApi, taskID string) (*FinishWatch, error) {
+	resp, err := api.ReceiveTaskReward(taskID)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
 func getAllTask(adv *AdvMainPage, ttps ...TaskType) TaskList {
 	taskListAll := TaskList{}
 	for _, ttp := range ttps {
@@ -94,8 +153,7 @@ func getAllTask(adv *AdvMainPage, ttps ...TaskType) TaskList {
 		case TPVideoRewardTabTaskList:
 			taskListAll = append(taskListAll, adv.GetVideoRewardTabTaskList(true)...)
 		case TPMoreRewardTab:
-			//todo 直接提交没效果 暂不处理
-			//taskListAll = append(taskListAll, adv.GetMoreRewardTabTaskList()...)
+			taskListAll = append(taskListAll, adv.GetMoreRewardTabTaskList()...)
 		case TPDailyBenefit:
 			taskListAll = append(taskListAll, adv.GetDailyBenefitTaskList()...)
 		case TPSurpriseBenefit:
@@ -118,7 +176,8 @@ func getAllTask(adv *AdvMainPage, ttps ...TaskType) TaskList {
 }
 func NotFinished(taskList TaskList) TaskList {
 	finished := func(task Task) bool {
-		return task.IsFinished == 0 && task.IsReceived == 0
+		support := !slices.Contains(NotSupportTaskType, task.TaskType)
+		return task.IsFinished == 0 && task.IsReceived == 0 && support
 	}
 	return slices.Collect(Filter(finished, slices.Values(taskList)))
 }

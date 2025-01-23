@@ -49,6 +49,14 @@ func (qd *QiDianApi) FinishWatch(Id string) (*FinishWatch, error) {
 	return Request[FinishWatch](qd, UrlFinishWatch, http.MethodPost, data)
 }
 
+func (qd *QiDianApi) UrlHeartBeat() (*HeartBeatResp, error) {
+	return Request[HeartBeatResp](qd, UrlHeartBeat, http.MethodGet, nil)
+}
+func (qd *QiDianApi) ReceiveTaskReward(Id string) (*FinishWatch, error) {
+	data := "taskId=" + Id
+	return Request[FinishWatch](qd, UrlReceiveTaskReward, http.MethodPost, data)
+}
+
 func (qd *QiDianApi) header(req *http.Request) error {
 	sdkSign, err := qd.sign.SDKSign(req.URL.String())
 	if err != nil {
