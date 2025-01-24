@@ -2,14 +2,24 @@ package qdapi
 
 import (
 	"crypto/tls"
+	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 func GetProxyClient() *http.Client {
+	address := "localhost:8888"
+	conn, err := net.DialTimeout("tcp", address, time.Second*2)
+	if err != nil {
+		fmt.Println("Charles 代理未开启或未监听 8888 端口")
+		return http.DefaultClient
+	}
+	defer conn.Close()
 	//for Charles
-	proxyURL, err := url.Parse("http://localhost:8888")
+	proxyURL, err := url.Parse("http://" + address)
 	if err != nil {
 		log.Fatal("Invalid proxy URL:", err)
 	}

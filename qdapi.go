@@ -114,6 +114,9 @@ func (qd *QiDianApi) request(uri string, method string, data any) ([]byte, error
 	req.Header.Set("Cookie", cookies.String())
 	qd.header(req)
 	resp, err := qd.Cli.Do(req)
+	if err != nil {
+		return nil, err
+	}
 	defer resp.Body.Close()
 	if err != nil {
 		return nil, err
