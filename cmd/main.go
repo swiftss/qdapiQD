@@ -5,6 +5,7 @@ import (
 	"github.com/pzx521521/qdapi"
 	"github.com/pzx521521/qdapi/sign"
 	"log"
+	"net/http"
 	"runtime"
 	"sync"
 )
@@ -36,21 +37,29 @@ var configs = []qdapi.QiDianApiConfig{
 }
 
 func main() {
-	CheckInAndDoTaskMulti(configs...)
+	var cli *http.Client
+	if runtime.GOOS == "darwin" {
+		//for charles
+		cli = qdapi.GetProxyClient()
+	} else {
+		//for github action
+		cli = qdapi.GetInsecureClient()
+	}
+	CheckInAndDoTaskMulti(cli, configs...)
 }
-func CheckInAndDoTaskMulti(configs ...qdapi.QiDianApiConfig) {
+func CheckInAndDoTaskMulti(cli *http.Client, configs ...qdapi.QiDianApiConfig) {
 	var wg sync.WaitGroup
 	for _, config := range configs {
 		wg.Add(1)
 		go func(config qdapi.QiDianApiConfig) {
-			CheckInAndDoTask(config)
+			CheckInAndDoTask(cli, config)
 			wg.Done()
 		}(config)
 	}
 	wg.Wait()
 }
 
-func CheckInAndDoTask(config qdapi.QiDianApiConfig) {
+func CheckInAndDoTask(client *http.Client, config qdapi.QiDianApiConfig) {
 	meta, err := sign.NewMeta(config.QDInfo, config.SDKSign)
 	if err != nil {
 		log.Printf("%v\n", err)
@@ -59,14 +68,7 @@ func CheckInAndDoTask(config qdapi.QiDianApiConfig) {
 
 	log.Printf("%v\n", meta)
 	api := qdapi.NewQiDianApi(meta, config.YWKey, config.YWGuid)
-
-	if runtime.GOOS == "darwin" {
-		//for charles
-		api.Cli = qdapi.GetProxyClient()
-	} else {
-		//for github action
-		api.Cli = qdapi.GetInsecureClient()
-	}
+	api.Cli = client
 	resp, err := api.CheckIn()
 	if err != nil {
 		log.Printf("%v\n", err)

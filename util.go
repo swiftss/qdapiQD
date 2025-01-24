@@ -2,7 +2,6 @@ package qdapi
 
 import (
 	"crypto/tls"
-	"fmt"
 	"log"
 	"net"
 	"net/http"
@@ -14,7 +13,6 @@ func GetProxyClient() *http.Client {
 	address := "localhost:8888"
 	conn, err := net.DialTimeout("tcp", address, time.Second*2)
 	if err != nil {
-		fmt.Println("Charles 代理未开启或未监听 8888 端口")
 		return http.DefaultClient
 	}
 	defer conn.Close()
