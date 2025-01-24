@@ -32,10 +32,11 @@ const (
 var NotSupportTaskType = []int{TPMoreRewardTabMoneyGame, TPMoreRewardTabOtherApp, TPMoreRewardTabNotify}
 
 type QiDianApiConfig struct {
-	QDInfo  string
-	SDKSign string
-	YWKey   string
-	YWGuid  string
+	QDInfo   string
+	SDKSign  string
+	YWKey    string
+	YWGuid   string
+	TaskType []TaskType
 }
 
 type BaseResp struct {

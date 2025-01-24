@@ -17,21 +17,21 @@ func Sleep() {
 	time.Sleep(15 * time.Second)
 }
 
-func doPlayGame(api *QiDianApi, advMainPage *AdvMainPage, heartBeatCount int) error {
+func doPlayGame(api *QiDianApi, nickName string, heartBeatCount int) error {
 	for i := 0; i < heartBeatCount; i++ {
 		beat, err := api.UrlHeartBeat()
 		if err != nil {
 			return err
 		}
-		log.Printf("%s:正在玩游戏,玩了:%d秒.返回值:%v\n", advMainPage.Data.NickName, heartBeatTime*(i+1), beat)
+		log.Printf("%s:正在玩游戏,玩了:%d秒.返回值:%v\n", nickName, heartBeatTime*(i+1), beat)
 		time.Sleep(time.Second * heartBeatTime)
 	}
 	return nil
 }
-func needPlayGame(taskList TaskList) int {
+func needPlayGame(taskList TaskList, nickName string) int {
 	for _, task := range taskList {
 		if task.TaskType == TPMoreRewardTabPlayGame {
-			log.Printf("游戏共需要玩%ds,已经玩了%ds\n", task.Total*heartBeatTime, heartBeatTime*task.Process)
+			log.Printf("%s: 游戏共需要玩%ds,已经玩了%ds\n", nickName, task.Total*heartBeatTime, heartBeatTime*task.Process)
 			return task.Total - task.Process
 		}
 	}
@@ -39,12 +39,13 @@ func needPlayGame(taskList TaskList) int {
 }
 func DoMoreRewardTab(api *QiDianApi, advMainPage *AdvMainPage) error {
 	taskList := getAllTask(advMainPage, TPMoreRewardTab)
-	log.Printf("%s:一共%d个更多任务\n", advMainPage.Data.NickName, len(taskList))
+	tipName := api.TipName()
+	log.Printf("%s:一共%d个更多任务\n", tipName, len(taskList))
 	taskList = NotFinished(taskList)
-	log.Printf("%s:还有%d个更多任务未完成\n", advMainPage.Data.NickName, len(taskList))
-	heartBeatCount := needPlayGame(taskList)
+	log.Printf("%s:还有%d个更多任务未完成\n", tipName, len(taskList))
+	heartBeatCount := needPlayGame(taskList, tipName)
 	if heartBeatCount > 0 {
-		err := doPlayGame(api, advMainPage, heartBeatCount)
+		err := doPlayGame(api, tipName, heartBeatCount)
 		if err != nil {
 			return err
 		}
@@ -63,20 +64,21 @@ func DoMoreRewardTab(api *QiDianApi, advMainPage *AdvMainPage) error {
 
 func DoWatchVideo(api *QiDianApi, advMainPage *AdvMainPage, ttps ...TaskType) error {
 	sleep := false
+	tipName := api.TipName()
 	taskList := getAllTask(advMainPage, ttps...)
-	log.Printf("%s:一共%d个看视频任务\n", advMainPage.Data.NickName, len(taskList))
+	log.Printf("%s:一共%d个看视频任务\n", tipName, len(taskList))
 	taskList = NotFinished(taskList)
-	log.Printf("%s:还有%d个看视频任务未完成\n", advMainPage.Data.NickName, len(taskList))
+	log.Printf("%s:还有%d个看视频任务未完成\n", tipName, len(taskList))
 	for i, task := range taskList {
 		finish, err := doTask(api, &task, &sleep)
 		if i != len(taskList)-1 {
 			Sleep()
 		}
 		if err != nil {
-			log.Printf("%s:第%d个任务[%s]失败:%v\n", advMainPage.Data.NickName, i, task.Desc, err)
+			log.Printf("%s:第%d个任务[%s]失败:%v\n", tipName, i, task.Desc, err)
 			return err
 		}
-		log.Printf("%s:第%d个任务[%s]成功:%v\n", advMainPage.Data.NickName, i, task.Desc, finish)
+		log.Printf("%s:第%d个任务[%s]成功:%v\n", tipName, i, task.Desc, finish)
 	}
 	return nil
 }
@@ -89,11 +91,11 @@ func DoTask(api *QiDianApi, ttps ...TaskType) error {
 	index := slices.Index(ttps, TPMoreRewardTab)
 	if index >= 0 {
 		ttps = slices.Delete(ttps, index, index+1)
-		go func() {
+		go func(api *QiDianApi, advMainPage *AdvMainPage) {
 			wg.Add(1)
 			DoMoreRewardTab(api, advMainPage)
 			wg.Done()
-		}()
+		}(api, advMainPage)
 	}
 	err = DoWatchVideo(api, advMainPage, ttps...)
 	wg.Wait()

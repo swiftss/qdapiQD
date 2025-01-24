@@ -17,16 +17,17 @@ func Request[T any](qd *QiDianApi, uri string, method string, data interface{}) 
 	var ret *T
 	err = json.Unmarshal(get, &ret)
 	if err != nil {
-		return nil, err
+		return nil, errors.Join(err, errors.New(string(get)))
 	}
 	return ret, err
 }
 
 type QiDianApi struct {
-	sign   *sign.Meta
-	Cli    *http.Client
-	ywkey  string
-	ywguid string
+	sign     *sign.Meta
+	Cli      *http.Client
+	ywkey    string
+	ywguid   string
+	NickName string
 }
 
 func NewQiDianApi(sign *sign.Meta, ywkey, ywguid string) *QiDianApi {
@@ -37,12 +38,22 @@ func NewQiDianApi(sign *sign.Meta, ywkey, ywguid string) *QiDianApi {
 		ywguid: ywguid,
 	}
 }
+func (qd *QiDianApi) TipName() string {
+	get, _ := qd.sign.InfosRW.Get(sign.FiledSystem)
+	return get + "|" + qd.ywguid + "|" + qd.NickName
+}
+
 func (qd *QiDianApi) CheckIn() (*CheckinResp, error) {
 	return Request[CheckinResp](qd, UrlCheckIn, http.MethodPost, nil)
 }
 
 func (qd *QiDianApi) AdvMainPage() (*AdvMainPage, error) {
-	return Request[AdvMainPage](qd, UrlAdvMainPage, http.MethodGet, nil)
+	request, err := Request[AdvMainPage](qd, UrlAdvMainPage, http.MethodGet, nil)
+	if err != nil {
+		return nil, err
+	}
+	qd.NickName = request.Data.NickName
+	return request, err
 }
 func (qd *QiDianApi) FinishWatch(Id string) (*FinishWatch, error) {
 	data := "taskId=" + Id + "&BanId=0&BanMessage=&CaptchaAId=&CaptchaType=0&CaptchaURL=&Challenge=&Gt=&NewCaptcha=0&Offline=0&PhoneNumber=&SessionKey="

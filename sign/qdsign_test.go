@@ -44,14 +44,14 @@ func TestSDKSign(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		get, err := meta.SdkRW.SDkGet(FiledHashUrl)
+		get, err := meta.SdkRW.Get(FiledHashUrl)
 		if err != nil {
 			return
 		}
 		if uri != get {
 			t.Error("not equal")
 		}
-		get, err = meta.SdkRW.SDkGet(FiledHashSignatures)
+		get, err = meta.SdkRW.Get(FiledHashSignatures)
 		fmt.Printf("%v\n", get)
 	}
 }

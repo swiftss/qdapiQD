@@ -10,10 +10,10 @@ import (
 var api *QiDianApi
 
 var c = QiDianApiConfig{
-	QDInfo:  "SO+aPyWTJ02k4C9FkkB29fACDXIsJx4pAGbhVI07D8hjHPOEsCFgpJ99gS3kYIjunO+UrcWbhPgIlUSo3XxdoisFnouWF80qfP+9nYAPZWuWE/x7ukJhxmRzdw1aVsBmIiveq7vRwg2cWq9rUSiFr8+TzhhMqzsahrzx8MySAqCgRREoe3UHQeRJdOptPZy7Zp80Got/jx81dN6SGzvP1ghm8ebYnQ4uKmeMn1XaGn/TLWTSWjEORIcCumvlLP9QfH1MAE6JFjwDBFxKiHmJ8gEIH575OkGuudZIY/axUcj4jDcvhOR5Tw==",
-	SDKSign: "fwU0VSlfsV/NtCFBjpJaraJc+v78FE6Ksfwf1tERIfrtPu9CbZQRyd86GyeD IClued440A6dZPtUTCEm/Nmg/sJUmk6piMqL/1oIUjvvyDgxV8JLiODJGWWj nE13omPAbgjI/g9dIOH6GIHl2Kqs8NCcyMpf4AsgXg2+qku6oG9QCbptHafw zhcRB8rTY0M5BqQnBW7JA2I=",
-	YWKey:   "ywROdPzlJ8Tp",
-	YWGuid:  "460067960",
+	QDInfo:  "WnYe23HKHHbFexRmDMhQphCTehSF/SNEL1SCOpnokmfIUobvKBUfPf9v9OO9vQkVpLUc2ZGEfF+RYPPC2DPGRYYtQJie1/AbKn7rix3XxC2bPySSpe3/3pa1NSQY3JfLZPfhTvOv5X3asU3d+CN8cHFNly21HJCqdpPYYXJnZ0Q248KbWxdJSYkpPA+PVGLoa+VPrHjEHhMMb9gvl1ynwuRV4rheW49iNHCcsgxAu18=",
+	SDKSign: "fwU0VSlfsV+RE6SccuAqu/fZItgFDmxD6kCwcOrchbfyT8SiY7w60HzYWmEU 9EWcGO+a3s9ru+AePT2JeBS3ml0Pk6k4RM1PrdUJxUvnie+Opf+u6ygrTDHT W6R2c3XVSfROaT0hqXFxPI82XRCUtwr61RhUtBxG2hZiF3sjU2URVJdCVuvr gw==",
+	YWKey:   "ywuldVe83KrJ",
+	YWGuid:  "525165249",
 }
 
 func init() {

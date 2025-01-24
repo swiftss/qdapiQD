@@ -13,7 +13,7 @@ type MetaRW struct {
 	dataStruct []string
 }
 
-func (rw *MetaRW) SDkGet(key string) (string, error) {
+func (rw *MetaRW) Get(key string) (string, error) {
 	index := slices.Index(rw.dataStruct, key)
 	if index < 0 {
 		return "", ErrNotFound

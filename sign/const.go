@@ -17,23 +17,26 @@ const FiledTimestamp = "时间戳"
 const FiledAppversion = "App版本号"
 const FiledHashUrl = "Hash(URL)"
 const FiledHashSignatures = "hash(Signatures)"
+const FiledQIMEI = "QIMEI"
+const FiledUUID = "系统UUID"
+const FiledSystem = "系统设备类型"
 
 var QDInfoStruct = []string{
-	"系统UUID",        //SRV	U55d98d04b89bfe8c10001ab17310
+	FiledUUID,       //SRV	U55d98d04b89bfe8c10001ab17310
 	FiledAppversion, //7.9.384
 	"系统分辨率",         //1080
 	"系统版本号",         //2296
 	"source",        //1002140
 	"系统安卓版本号",       //14
 	UNKNOWNInt,      //1
-	"系统设备类型",        //2106118C
+	FiledSystem,     //2106118C
 	"系统版本Code",      //1466
 	"source2",       //1000014
 	UNKNOWNInt,      //4
 	"用户token",       //344203808
 	FiledTimestamp,  //1735543229551
 	UNKNOWNInt,      //0
-	"QIMEI",         //c517bf9e55d98d04b89bfe8c10001ab17310
+	FiledQIMEI,      //c517bf9e55d98d04b89bfe8c10001ab17310
 	UNKNOWNStr,      //be939f2c6192e1ae
 	UNKNOWNStr,      //
 	UNKNOWNStr,      //45fff87862ce33d8
@@ -45,7 +48,7 @@ var SDKSignStruct = []string{
 	"标志符号",              //qYJ]Q9FYhq?
 	FiledTimestamp,      //1736561971779
 	UNKNOWNStr,          //344203808
-	"系统UUID",            //c517bf9e55d98d04b89bfe8c10001ab17310
+	FiledQIMEI,          //c517bf9e55d98d04b89bfe8c10001ab17310
 	UNKNOWNInt,          //1
 	"App版本号",            //7.9.384
 	UNKNOWNInt,          //0
