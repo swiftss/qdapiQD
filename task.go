@@ -18,7 +18,7 @@ func Sleep() {
 }
 
 func doPlayGame(api *QiDianApi, nickName string, heartBeatCount int) error {
-	for i := 0; i < heartBeatCount; i++ {
+	for i := 0; i < heartBeatCount*2; i++ {
 		beat, err := api.UrlHeartBeat()
 		if err != nil {
 			return err
@@ -54,10 +54,10 @@ func DoMoreRewardTab(api *QiDianApi, advMainPage *AdvMainPage) error {
 	for i, task := range taskList {
 		finish, err := doTask(api, &task, nil)
 		if err != nil {
-			log.Printf("%s:第%d个更多任务[%s]失败:%v\n", advMainPage.Data.NickName, i, task.Desc, err)
+			log.Printf("%s:第%d个更多任务[%s]失败:%v\n", tipName, i, task.Desc, err)
 			return err
 		}
-		log.Printf("%s:第%d个更多任务[%s]成功:%v\n", advMainPage.Data.NickName, i, task.Desc, finish)
+		log.Printf("%s:第%d个更多任务[%s]成功:%v\n", tipName, i, task.Desc, finish)
 	}
 	return nil
 }
@@ -172,6 +172,8 @@ func getAllTask(adv *AdvMainPage, ttps ...TaskType) TaskList {
 				IsFinished: surprise.IsFinished,
 				IsReceived: isReceived,
 			})
+		default:
+
 		}
 	}
 	return taskListAll

@@ -55,7 +55,23 @@ func (m *Meta) ModifyTimeStamp() error {
 	}
 	return m.SdkRW.Modify(FiledTimestamp, ts)
 }
-
+func (m *Meta) ModifyQIMEI() error {
+	//imei, _ := m.InfosRW.Get(FiledQIMEI)
+	//uuid, _ := m.InfosRW.Get(FiledUUID)
+	random := string([]byte{22, 22, 23})
+	newImei := "f6ab01f78ea0e727" + random
+	newUuid := "V\u0006QR\u0000\u0001V\a8ea0e727" + random
+	if err := m.InfosRW.Modify(FiledUUID, newUuid); err != nil {
+		return err
+	}
+	if err := m.InfosRW.Modify(FiledQIMEI, newImei); err != nil {
+		return err
+	}
+	if err := m.SdkRW.Modify(FiledQIMEI, newImei); err != nil {
+		return err
+	}
+	return nil
+}
 func (m *Meta) QDInfo() (string, error) {
 	info := strings.Join(m.qdInfos, "|")
 	encrypt, err := EncryptQDInfo(info)

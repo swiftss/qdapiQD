@@ -3,6 +3,7 @@ package qdapi
 import (
 	"fmt"
 	"github.com/pzx521521/qdapi/sign"
+	"sync"
 	"testing"
 	"time"
 )
@@ -15,17 +16,36 @@ var c = QiDianApiConfig{
 	YWKey:   "ywuldVe83KrJ",
 	YWGuid:  "525165249",
 }
+var configs = []QiDianApiConfig{
+	QiDianApiConfig{
+		QDInfo:  "SO+aPyWTJ02k4C9FkkB29fACDXIsJx4pAGbhVI07D8hjHPOEsCFgpJ99gS3kYIjunO+UrcWbhPgIlUSo3XxdoisFnouWF80qfP+9nYAPZWviV9DlRVtRllf2xwn3SDILgUVhzxJXrTRNcGeynaP07zVZ5qe7MsQgKlxQdWxM6mFdhlYjvxrV+vON3pGlpR6i99QzTXesSmhLrNUXyxfExycfosXSayIx7cg++mgVmMuYlzq0lHdkLtE9Xy/osz0yxcsC+f+qlmWM7h/koIE014cWbRBsHjwBQJJkU6h2fa5lDRNhYZLnfQ==",
+		SDKSign: "fwU0VSlfsV/NtCFBjpJarbYpi9mlbLU/EDzhOVoz2RdtheX+SLpjTy8L2+gA InschgJSs1O5vbtFpSZ6+GPI8iEd6QhtwlTz8ODKLNM1r+aH0A8sY5+lP6la DPt/GpDgPvW5ZvKHiqnIqFEJHRoPYEshR2+cAq03JfcYLPvSfE7DpuHLVA2F mRtLGCdVWmTujc/5Lb+/Cmk=",
+		YWKey:   "ywU8TfcHg8J4",
+		YWGuid:  "120154865151",
+	},
+	QiDianApiConfig{
+		QDInfo:  "SO+aPyWTJ02k4C9FkkB29fACDXIsJx4pAGbhVI07D8hjHPOEsCFgpJ99gS3kYIjunO+UrcWbhPgIlUSo3XxdoisFnouWF80qfP+9nYAPZWuWE/x7ukJhxmRzdw1aVsBmIiveq7vRwg3TXyIs43bQR3QvtRub8keYvoqD6sPrygjYPGJO9epFkB+fl7WpyOWndaOEzW8rBQsZsBlYOgisDB2wfkLKY4MRmjXtJXExeryCF60qFFMggzPdI0Ix+8Bd4wq2H4FjKDpW/8bUd251Pcqp/aFpa6+ta4mpDrYTvSyPQRQ4L4c3TQ==",
+		SDKSign: "fwU0VSlfsV+RE6SccuAquwkzDajTNoEiqiGCwQfq7fHo7uruH5m4d6dpHZ7l UMFsNXq7acQdUlrZaOxwvjFn8/1Q8jvP0T+BNavJZeopiM22wFQTe3MJWYcb Qa8F7Za38bJHVI9c24MBjk26vMafbmqA6dobIfjQHDPsPGzpoK9DW3wwCs9H WG7t8CVhvVUpWLbh3WXeFco=",
+		YWKey:   "ywv57qBHtL3q",
+		YWGuid:  "460067960",
+	},
+}
 
-func init() {
-	meta, err := sign.NewMeta(c.QDInfo, c.SDKSign)
+func getApi(config QiDianApiConfig) *QiDianApi {
+	meta, err := sign.NewMeta(config.QDInfo, config.SDKSign)
 	if err != nil {
 		fmt.Printf("%v\n", err)
-		return
+		return nil
 	}
-	api = NewQiDianApi(meta, c.YWKey, c.YWGuid)
-	api.Cli = GetProxyClient()
+	ret := NewQiDianApi(meta, config.YWKey, config.YWGuid)
+	ret.Cli = GetProxyClient()
+	return ret
+}
+func init() {
+	api = getApi(c)
 }
 func TestCheckIn(t *testing.T) {
+	api.sign.ModifyQIMEI()
 	if resp, err := api.CheckIn(); err != nil {
 		t.Error(err)
 	} else {
@@ -54,7 +74,7 @@ func TestFinishWatch_SurpriseBenefit(t *testing.T) {
 	}
 }
 
-func TestHeartBeat(t *testing.T) {
+func heartBeat(api *QiDianApi) {
 	for i := 0; i < 10; i++ {
 		beat, err := api.UrlHeartBeat()
 		if err != nil {
@@ -64,6 +84,19 @@ func TestHeartBeat(t *testing.T) {
 		fmt.Printf("%v\n", beat)
 		time.Sleep(time.Second * 30)
 	}
+}
+func TestHeartBeat(t *testing.T) {
+	api2 := getApi(configs[0])
+	api1 := getApi(configs[1])
+	wg := sync.WaitGroup{}
+	go func() {
+		wg.Add(1)
+		defer wg.Done()
+		heartBeat(api1)
+	}()
+	time.Sleep(time.Second * 15)
+	heartBeat(api2)
+	wg.Wait()
 }
 func TestFinishWatch_DailyBenefit(t *testing.T) {
 	advMainPage, err := api.AdvMainPage()

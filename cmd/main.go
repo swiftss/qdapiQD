@@ -49,12 +49,12 @@ func main() {
 }
 func CheckInAndDoTaskMulti(cli *http.Client, configs ...qdapi.QiDianApiConfig) {
 	var wg sync.WaitGroup
-	for _, config := range configs {
+	for i, config := range configs {
 		wg.Add(1)
-		go func(config qdapi.QiDianApiConfig) {
+		go func(index int, config qdapi.QiDianApiConfig) {
 			CheckInAndDoTask(cli, config)
 			wg.Done()
-		}(config)
+		}(i, config)
 	}
 	wg.Wait()
 }
