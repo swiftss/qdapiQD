@@ -1,5 +1,7 @@
 package qdapi
 
+import "strconv"
+
 const UrlArgus = "https://h5.if.qidian.com/argus/api/"
 const UrlArgusV1 = UrlArgus + "v1/"
 const UrlArgusV2 = UrlArgus + "v2/"
@@ -32,10 +34,10 @@ const (
 var NotSupportTaskType = []int{TPMoreRewardTabMoneyGame, TPMoreRewardTabOtherApp, TPMoreRewardTabNotify}
 
 type QiDianApiConfig struct {
-	QDInfo   string
-	SDKSign  string
-	YWKey    string
-	YWGuid   string
+	QdInfo   string
+	SdkSign  string
+	YwKey    string
+	YwGuid   string
 	TaskType []TaskType
 }
 
@@ -88,6 +90,22 @@ type CheckinResp struct {
 		VideoButtonTag     string `json:"VideoButtonTag"`
 	} `json:"Data"`
 }
+
+func (c *CheckinResp) GetNickName() string {
+	if !c.IsSuccess() {
+		return c.Message
+	} else {
+		return c.GetNickName()
+	}
+}
+func (c *CheckinResp) GetTimeStamp() string {
+	if !c.IsSuccess() {
+		return c.Message
+	} else {
+		return strconv.FormatInt(c.Data.Date, 10)
+	}
+}
+
 type AdvMainPage struct {
 	BaseResp
 	Data struct {

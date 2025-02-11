@@ -13,6 +13,13 @@ type MetaRW struct {
 	dataStruct []string
 }
 
+func (rw *MetaRW) Sget(key string) string {
+	get, err := rw.Get(key)
+	if err != nil {
+		return ""
+	}
+	return get
+}
 func (rw *MetaRW) Get(key string) (string, error) {
 	index := slices.Index(rw.dataStruct, key)
 	if index < 0 {
