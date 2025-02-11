@@ -18,7 +18,7 @@ func Sleep() {
 }
 
 func doPlayGame(api *QiDianApi, nickName string, heartBeatCount int) error {
-	for i := 0; i < heartBeatCount*2; i++ {
+	for i := 0; i < heartBeatCount; i++ {
 		beat, err := api.UrlHeartBeat()
 		if err != nil {
 			return err
@@ -31,8 +31,8 @@ func doPlayGame(api *QiDianApi, nickName string, heartBeatCount int) error {
 func needPlayGame(taskList TaskList, nickName string) int {
 	for _, task := range taskList {
 		if task.TaskType == TPMoreRewardTabPlayGame {
-			log.Printf("%s: 游戏共需要玩%ds,已经玩了%ds\n", nickName, task.Total*heartBeatTime, heartBeatTime*task.Process)
-			return task.Total - task.Process
+			log.Printf("%s: 游戏共需要玩%ds,已经玩了%ds\n", nickName, task.Total*heartBeatTime*2, heartBeatTime*2*task.Process)
+			return (task.Total - task.Process) * 2
 		}
 	}
 	return 0
