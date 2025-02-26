@@ -20,16 +20,20 @@ var c = QiDianApiConfig{
 }
 var configs = []QiDianApiConfig{
 	QiDianApiConfig{
-		QdInfo:  "SO+aPyWTJ02k4C9FkkB29fACDXIsJx4pAGbhVI07D8hjHPOEsCFgpJ99gS3kYIjunO+UrcWbhPgIlUSo3XxdoisFnouWF80qfP+9nYAPZWviV9DlRVtRllf2xwn3SDILgUVhzxJXrTRNcGeynaP07zVZ5qe7MsQgKlxQdWxM6mFdhlYjvxrV+vON3pGlpR6i99QzTXesSmhLrNUXyxfExycfosXSayIx7cg++mgVmMuYlzq0lHdkLtE9Xy/osz0yxcsC+f+qlmWM7h/koIE014cWbRBsHjwBQJJkU6h2fa5lDRNhYZLnfQ==",
-		SdkSign: "fwU0VSlfsV/NtCFBjpJarbYpi9mlbLU/EDzhOVoz2RdtheX+SLpjTy8L2+gA InschgJSs1O5vbtFpSZ6+GPI8iEd6QhtwlTz8ODKLNM1r+aH0A8sY5+lP6la DPt/GpDgPvW5ZvKHiqnIqFEJHRoPYEshR2+cAq03JfcYLPvSfE7DpuHLVA2F mRtLGCdVWmTujc/5Lb+/Cmk=",
-		YwKey:   "ywU8TfcHg8J4",
-		YwGuid:  "120154865151",
-	},
-	QiDianApiConfig{
 		QdInfo:  "SO+aPyWTJ02k4C9FkkB29fACDXIsJx4pAGbhVI07D8hjHPOEsCFgpJ99gS3kYIjunO+UrcWbhPgIlUSo3XxdoisFnouWF80qfP+9nYAPZWuWE/x7ukJhxmRzdw1aVsBmIiveq7vRwg3TXyIs43bQR3QvtRub8keYvoqD6sPrygjYPGJO9epFkB+fl7WpyOWndaOEzW8rBQsZsBlYOgisDB2wfkLKY4MRmjXtJXExeryCF60qFFMggzPdI0Ix+8Bd4wq2H4FjKDpW/8bUd251Pcqp/aFpa6+ta4mpDrYTvSyPQRQ4L4c3TQ==",
 		SdkSign: "fwU0VSlfsV+RE6SccuAquwkzDajTNoEiqiGCwQfq7fHo7uruH5m4d6dpHZ7l UMFsNXq7acQdUlrZaOxwvjFn8/1Q8jvP0T+BNavJZeopiM22wFQTe3MJWYcb Qa8F7Za38bJHVI9c24MBjk26vMafbmqA6dobIfjQHDPsPGzpoK9DW3wwCs9H WG7t8CVhvVUpWLbh3WXeFco=",
 		YwKey:   "ywv57qBHtL3q",
 		YwGuid:  "460067960",
+		//不玩游戏 目前没有破解imei相关的加密,多账号时只能使用多台手机的cookie,否则后台会不计算时长
+		TaskType: []TaskType{TPSurpriseBenefit, TPDailyBenefit, TPVideoRewardTabTaskList},
+	},
+	QiDianApiConfig{
+		QdInfo:  "SO+aPyWTJ02k4C9FkkB29fACDXIsJx4pAGbhVI07D8hjHPOEsCFgpJ99gS3kYIjunO+UrcWbhPgIlUSo3XxdoisFnouWF80qfP+9nYAPZWuWE/x7ukJhxmRzdw1aVsBmIiveq7vRwg0jmRKWIbLk0ya0DYM4609KsFwEIC7L1WVJQXRx5UNlnsjgPb3hCSa7HUCpa9zqtpcyDyM2fWAayh4ikkxUyKXzIv/ZJHgdpi96D9QKK7YGVyioz85qI/w483DdS4qJgDVUP2YdEyq0NAT7LIZm92+jzv79Zpu9Q5k+xJ/ThJI6CQ==",
+		SdkSign: "fwU0VSlfsV/z4GQNcgcrcGiuXtCeOrancxEZUexJzB4Bt5Ne33V01rzTHpj0 sN7tTN1GDScbR3MXVE1RmmcnSmV8CEBCdSKOiWi7OWmLtqt1RzTPszFLWG/U xLK5yCM7lNhPLv/y6CekqR5JAXmNLkSnyvdfTxDk+otpHi+PMEgC/U1IfwUj OzH3JdbgQP7OKXwpvUozje0=",
+		YwKey:   "ywqpRoQfqBKt",
+		YwGuid:  "460067960",
+		//不玩游戏 目前没有破解imei相关的加密,多账号时只能使用多台手机的cookie,否则后台会不计算时长
+		TaskType: []TaskType{TPSurpriseBenefit, TPDailyBenefit, TPVideoRewardTabTaskList},
 	},
 }
 
@@ -44,7 +48,9 @@ func getApi(config QiDianApiConfig) *QiDianApi {
 	return ret
 }
 func init() {
-	api = getApi(c)
+	api = getApi(configs[0])
+	api2 := getApi(configs[1])
+	fmt.Printf("%v\n", api2.sign)
 }
 func TestCheckIn(t *testing.T) {
 	if resp, err := api.CheckIn(); err != nil {
