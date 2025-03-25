@@ -21,7 +21,7 @@ var configs = []qdapi.QiDianApiConfig{
 	qdapi.QiDianApiConfig{
 		QdInfo:  "SO+aPyWTJ02k4C9FkkB29fACDXIsJx4pAGbhVI07D8hjHPOEsCFgpJ99gS3kYIjunO+UrcWbhPgIlUSo3XxdoisFnouWF80qfP+9nYAPZWuWE/x7ukJhxmRzdw1aVsBmIiveq7vRwg0jmRKWIbLk0ya0DYM4609KsFwEIC7L1WVJQXRx5UNlnsjgPb3hCSa7HUCpa9zqtpcyDyM2fWAayh4ikkxUyKXzIv/ZJHgdpi96D9QKK7YGVyioz85qI/w483DdS4qJgDVUP2YdEyq0NAT7LIZm92+jzv79Zpu9Q5k+xJ/ThJI6CQ==",
 		SdkSign: "fwU0VSlfsV/z4GQNcgcrcGiuXtCeOrancxEZUexJzB4Bt5Ne33V01rzTHpj0 sN7tTN1GDScbR3MXVE1RmmcnSmV8CEBCdSKOiWi7OWmLtqt1RzTPszFLWG/U xLK5yCM7lNhPLv/y6CekqR5JAXmNLkSnyvdfTxDk+otpHi+PMEgC/U1IfwUj OzH3JdbgQP7OKXwpvUozje0=",
-		YwKey:   "ywqpRoQfqBKt",
+		YwKey:   "ywEw0mB2ErUg",
 		YwGuid:  "460067960",
 		//不玩游戏 目前没有破解imei相关的加密,多账号时只能使用多台手机的cookie,否则后台会不计算时长
 		TaskType: []qdapi.TaskType{qdapi.TPSurpriseBenefit, qdapi.TPDailyBenefit, qdapi.TPVideoRewardTabTaskList},
