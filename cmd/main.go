@@ -14,7 +14,7 @@ var configs = []qdapi.QiDianApiConfig{
 	qdapi.QiDianApiConfig{
 		QdInfo:   "SO+aPyWTJ02k4C9FkkB29fACDXIsJx4pAGbhVI07D8hjHPOEsCFgpJ99gS3kYIjunO+UrcWbhPgIlUSo3XxdoisFnouWF80qfP+9nYAPZWuWE/x7ukJhxq8DEJW+n90UAoC6t3e9KFYiTLEscTjh73LcOjrTQz+qqJjYEZbh6kASXSCx91sFGt5BnhiBB/3z4VWhKNmFjaF4Kxw7l6OL/MPyJ5eI4116Y43wcvg2k1TjTr0n/LqBAUl0hz82734VOvc95DeiNUDQKneKfLUDPeARmS5sYPNGRFNFr36HmPTkbfd+w6OFVA==",
 		SdkSign:  "fwU0VSlfsV8VwoTAKeiLPkPXuEgmx4T3/qIzsXOXgNt+iZfAcWS+jVkp1l8o 5kOozMtfRIgSXO5lM3InyuNrlINApdhLJlFnaYIchu5wBgNoqSc5fPuEJDxd Sdp1VTvMsqmfmjwCHO5Iu2NpGJmNOFF6ilOIS67pU1ESOqJz+THNQFNCxGmn a6CsLsOPn0Gyv7Jzg2Rvxag=",
-		YwKey:    "yknKtJT6jnkX",
+		YwKey:    "ykXsEEPqBVTw",
 		YwGuid:   "120154865151",
 		TaskType: []qdapi.TaskType{qdapi.TPSurpriseBenefit, qdapi.TPDailyBenefit, qdapi.TPVideoRewardTabTaskList, qdapi.TPMoreRewardTab},
 	},
