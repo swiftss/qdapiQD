@@ -5,7 +5,7 @@
   `SDKSign`
 + header->cookie中的  
   `QDInfo`
-  `ywkey` 
+  `ywkey` (每月需要更新一次)
   `ywguid`   
 放入`cmd/main.go`中
 ## 其他注意事项
@@ -35,7 +35,7 @@ cryptor = DES3.new(key, DES3.MODE_CBC, b'01234567')
 print(cryptor.decrypt(data))
 ```
 # Todo
-
++ [ ] ywkey 每月需要更新,目前没有自动每月更新
 + MoreRewardTab
 + [x] 104=前往游戏中心玩游戏10分钟奖励10点币
   + 目前没有破解imei相关的加密,多账号时只能使用多台手机的cookie,否则后台会不计算时长
