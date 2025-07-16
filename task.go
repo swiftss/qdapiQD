@@ -52,7 +52,8 @@ func DoMoreRewardTab(api *QiDianApi, advMainPage *AdvMainPage) error {
 	}
 
 	for i, task := range taskList {
-		finish, err := doTask(api, &task, nil)
+		sleep := false
+		finish, err := doTask(api, &task, &sleep)
 		if err != nil {
 			log.Printf("%s:第%d个更多任务[%s]失败:%v\n", tipName, i, task.Desc, err)
 			return err
