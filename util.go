@@ -2,10 +2,12 @@ package qdapi
 
 import (
 	"crypto/tls"
+	"encoding/json"
 	"log"
 	"net"
 	"net/http"
 	"net/url"
+	"os"
 	"time"
 )
 
@@ -37,4 +39,34 @@ func GetInsecureClient() *http.Client {
 	return &http.Client{
 		Transport: tr,
 	}
+}
+
+func LoadConfigFromJSON(filename string) ([]QiDianApiConfig, error) {
+	var config []QiDianApiConfig
+	file, err := os.Open(filename)
+	if err != nil {
+		return config, err
+	}
+	defer file.Close()
+	decoder := json.NewDecoder(file)
+	err = decoder.Decode(&config)
+	return config, err
+}
+
+func SaveConfigToJSON(filename string, data interface{}) error {
+	// 创建文件
+	file, err := os.Create(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	// 创建JSON编码器
+	encoder := json.NewEncoder(file)
+
+	// 设置格式缩进（可选）
+	encoder.SetIndent("", "  ")
+
+	// 执行编码
+	return encoder.Encode(data)
 }

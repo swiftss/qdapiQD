@@ -1,7 +1,7 @@
 import base64
 
 from Crypto.Cipher import DES3
-
+# pip install pycryptodome
 
 data = base64.b64decode('fwU0VSlfsV/NtCFBjpJarbYpi9mlbLU/EDzhOVoz2RdtheX+SLpjTy8L2+gA InschgJSs1O5vbtFpSZ6+GPI8iEd6QhtwlTz8ODKLNM1r+aH0A8sY5+lP6la DPt/GpDgPvW5ZvKHiqnIqFEJHRoPYEshR2+cAq03JfcYLPvSfE7DpuHLVA2F mRtLGCdVWmTujc/5Lb+/Cmk=')
 # data = base64.b64decode('R7TCs6Tou2X528j+NblfBlkZKrDI6v4lL54ep1+q8M9Ne1vBxZaXEJmxFxpu qzl/sF8jizgbsoW/2mnH4Y1Id7TgNL80BUZy7x4lBzsWt7EIC48y0OA1xvrI UWEBy5jPl5HiNUfq5zAJg/g4FEoPzED2FYRy4GZh3f8m0JpwR3s=')
