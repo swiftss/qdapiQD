@@ -50,10 +50,8 @@ func DoMoreRewardTab(api *QiDianApi, advMainPage *AdvMainPage) error {
 			return err
 		}
 	}
-
 	for i, task := range taskList {
-		sleep := false
-		finish, err := doTask(api, &task, &sleep)
+		finish, err := doTask(api, &task, nil)
 		if err != nil {
 			log.Printf("%s:第%d个更多任务[%s]失败:%v\n", tipName, i, task.Desc, err)
 			return err
@@ -131,10 +129,12 @@ func doTask(api *QiDianApi, task *Task, sleep *bool) (*FinishWatch, error) {
 }
 
 func singleTask(api *QiDianApi, taskID string, sleep *bool) (*FinishWatch, error) {
-	if *sleep {
-		Sleep()
-	} else {
-		*sleep = true
+	if sleep != nil {
+		if *sleep {
+			Sleep()
+		} else {
+			*sleep = true
+		}
 	}
 	resp, err := api.FinishWatch(taskID)
 	if err != nil {

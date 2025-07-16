@@ -24,14 +24,16 @@ const (
 	//103=前往游戏中心任意一款游戏充值1次奖励30点币
 	//121=签到互动多重福利(微博)/登陆携程领积分当钱花
 	//222=打开推送通知，次日（24h）后可领取奖励
-	TPMoreRewardTabPlayGame  = 104
-	TPMoreRewardTabMoneyGame = 103
-	TPMoreRewardTabOtherApp  = 121
-	TPMoreRewardTabNotify    = 222
+	//223=新打开推送通知累计36/64天
+	TPMoreRewardTabPlayGame   = 104
+	TPMoreRewardTabMoneyGame  = 103
+	TPMoreRewardTabOtherApp   = 121
+	TPMoreRewardTabNotify     = 222
+	TPMoreRewardTabNotifyDays = 223
 )
 
 // todo 这些暂时不支持
-var NotSupportTaskType = []int{TPMoreRewardTabMoneyGame, TPMoreRewardTabOtherApp, TPMoreRewardTabNotify}
+var NotSupportTaskType = []int{TPMoreRewardTabMoneyGame, TPMoreRewardTabOtherApp, TPMoreRewardTabNotify, TPMoreRewardTabNotifyDays}
 
 type QiDianApiConfig struct {
 	QdInfo   string
