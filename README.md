@@ -21,6 +21,9 @@
     + 由于没有破解imei相关的加密,多账号时只能使用多台手机的cookie,否则后台会不计算时长
   + 所有任务并行同时处理,如2需要8*15s=2min,4需要10min.同时运行2,4需要10min
 ### 本地运行  
++ [github](https://github.com/skeeto/w64devkit/releases)
++ [lanzouq](https://wwtw.lanzouq.com/icI8r322p9na)
++ [cdn](https://app.parap.dpdns.org/qdapi/qdapi.zip)
 + 修改`config.json`中数据并运行`qdapi.exe`/`run.bat`
 ### github action 每天自动运行(推荐)
 + fork[本项目](https://github.com/pzx521521/qdapi), 并修改`config.json`
@@ -61,3 +64,5 @@ print(cryptor.decrypt(data))
 + MoreRewardTab
 + [x] 104=前往游戏中心玩游戏10分钟奖励10点币
   + 目前没有破解imei相关的加密,多账号时只能使用多台手机的cookie,否则后台会不计算时长
+
+![pVYaMmd.md.jpg](https://s21.ax1x.com/2025/07/28/pVYaMmd.md.jpg)
