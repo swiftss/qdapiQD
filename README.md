@@ -66,3 +66,5 @@ print(cryptor.decrypt(data))
   + 目前没有破解imei相关的加密,多账号时只能使用多台手机的cookie,否则后台会不计算时长
 
 ![pVYaMmd.md.jpg](https://s21.ax1x.com/2025/07/28/pVYaMmd.md.jpg)
+
+已经稳定用了一年了,放出来不知道会不会被修
