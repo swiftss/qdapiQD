@@ -1,0 +1,18 @@
+S3_BUCKET:=app
+ACCOUNT_ID:=408393949eb505f73a9af86454446f19
+# 默认目标
+all: build
+
+# 构建目标
+build:
+#	GOOS=linux GOARCH=amd64 go build -o ./bin/qdapi_linux
+#	GOOS=darwin GOARCH=amd64 go build -o ./bin/qdapi
+	GOOS=windows GOARCH=amd64 go build -gcflags "-N -l" -o ./bin/qdapi.exe
+
+buildWin:
+	set GOOS=windows
+	set GOARCH=amd64
+	go build  -o ./bin/qdapi.exe -gcflags "-N -l" github.com/pzx521521/qdapi/cmd
+
+s3upload:
+	aws s3 sync ./bin s3://$(S3_BUCKET)/qdapi --region auto --endpoint-url https://$(ACCOUNT_ID).r2.cloudflarestorage.com

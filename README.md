@@ -21,7 +21,7 @@
     + 由于没有破解imei相关的加密,多账号时只能使用多台手机的cookie,否则后台会不计算时长
   + 所有任务并行同时处理,如2需要8*15s=2min,4需要10min.同时运行2,4需要10min
 ### 本地运行  
-+ 修改`config.json`中数据并运行exe
++ 修改`config.json`中数据并运行`qdapi.exe`/`run.bat`
 ### github action 每天自动运行(推荐)
 + fork[本项目](https://github.com/pzx521521/qdapi), 并修改`config.json`
 + 如果怕config.json信息泄露,请设置为private或自行使用github action的Secrets/Variables
